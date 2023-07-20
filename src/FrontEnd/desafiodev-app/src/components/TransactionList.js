@@ -6,7 +6,6 @@ import TransactionService from '../services/TransactionService';
 import { formatDate, formatCurrency } from '../utils/formatters';
 
 export default function TransactionList() {
-
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,6 +14,59 @@ export default function TransactionList() {
     fetchTransactions();
   }, []);
 
+    const typesConfig = {
+        1: { 
+            name: 'Débito',
+            nature: 'Entrada',
+            signal: '+'
+        },
+        2: {
+            name: 'Boleto',
+            nature: 'Saída', 
+            signal: '-'
+        },
+        3: {
+            name: 'Financiamento',
+            nature: 'Saída',
+            signal: '-'
+        },
+        4: {
+            name: 'Crédito',
+            nature: 'Entrada',
+            signal: '+'
+        },
+        5: {
+            name: 'Recebimento Empréstimo',
+            nature: 'Entrada',
+            signal: '+'
+        },
+        6: {
+            name: 'Vendas',
+            nature: 'Entrada',
+            signal: '+'
+        },
+        7: {
+            name: 'Recebimento TED',
+            nature: 'Entrada', 
+            signal: '+'
+        },
+        8: {
+            name: 'Recebimento DOC',
+            nature: 'Entrada',
+            signal: '+'
+        },
+        9: {
+            name: 'Aluguel',
+            nature: 'Saída',
+            signal: '-'
+        }
+}
+    function getTypeInfo(type) {
+        if(!typesConfig[type]) {
+            return {}; // retorna objeto vazio
+        }
+        return typesConfig[type]; 
+    }
   const fetchTransactions = async () => {
     try {
       setIsLoading(true);
@@ -28,36 +80,52 @@ export default function TransactionList() {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'type', headerName: 'Tipo', width: 130 },
+      { field: 'id', headerName: 'ID', flex: 1 },
+    
+      {
+          field: 'type',
+          headerName: 'Tipo da transação',
+          flex: 1,
+          valueFormatter: ({ value }) => getTypeInfo(value).name
+      },
     { 
       field: 'date',
-      headerName: 'Data',
-      width: 150,
+      headerName: 'Data da ocorrência',
+      flex: 1,
       valueFormatter: ({ value }) => formatDate(value)
     },
     {
       field: 'value',  
-      headerName: 'Valor',
-      width: 130,
-      valueFormatter: ({ value}) => formatCurrency(value)
+      headerName: 'Valor da movimentação',
+      flex: 1,
+      valueFormatter: ({ value }) => {
+        return formatCurrency(value);
+        }
     },
-    { field: 'cpf', headerName: 'CPF', width: 130 },
-    { field: 'card', headerName: 'Cartão', width: 130 },
+      {
+          field: 'cpf',
+          headerName: 'CPF do beneficiário',
+          flex: 1
+      },
+      {
+          field: 'card',
+          headerName: 'Cartão utilizado na transação',
+          flex: 1
+      },
     {
       field: 'time',
       headerName: 'Hora',
-      width: 150,
+      flex: 1
     },
     { 
       field: 'storeOwner',
-      headerName: 'Dono da Loja',
-      width: 150,
+      headerName: 'Nome do representante da loja',
+      flex: 1
     },
     {
       field: 'storeName',  
-      headerName: 'Nome da Loja',
-      width: 150,
+      headerName: 'Nome da loja',
+      flex: 1
     },
   ];
 
@@ -70,10 +138,11 @@ export default function TransactionList() {
 
       {isLoading ? <CircularProgress /> : (
         <DataGrid 
-          rows={transactions}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
+            rows={transactions}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            autoWidth
         />
       )}
     </>
