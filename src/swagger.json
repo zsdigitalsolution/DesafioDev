@@ -1,0 +1,339 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Exemplo de Api com arquitetura simples",
+    "version": "v1"
+  },
+  "paths": {
+    "/Transaction": {
+      "post": {
+        "tags": [
+          "Transaction"
+        ],
+        "summary": "Uploads a CNAB file for processing.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ContentType": {
+                    "type": "string"
+                  },
+                  "ContentDisposition": {
+                    "type": "string"
+                  },
+                  "Headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "Length": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "Name": {
+                    "type": "string"
+                  },
+                  "FileName": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "ContentType": {
+                  "style": "form"
+                },
+                "ContentDisposition": {
+                  "style": "form"
+                },
+                "Headers": {
+                  "style": "form"
+                },
+                "Length": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "FileName": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "summary": "Gets all processed transactions.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionResponseCommandIEnumerableResultMessage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notification"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notification"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExceptionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Transaction/{id}": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "summary": "Gets a processed transactions.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionResponseCommandResultMessage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notification"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notification"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExceptionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ExceptionResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Status de sucesso"
+          },
+          "message": {
+            "type": "string",
+            "description": "mensagem de sucesso",
+            "nullable": true
+          },
+          "erroId": {
+            "type": "string",
+            "description": "Código de identificação unida do erro",
+            "format": "uuid"
+          },
+          "erro": {
+            "type": "string",
+            "description": "Descrição do erro",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "property": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionResponseCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Gets or sets the unique identifier for the transaction.",
+            "format": "int32"
+          },
+          "type": {
+            "type": "integer",
+            "description": "Gets or sets the type of the transaction. The value should correspond to the transaction types defined in the CNAB file specification.",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "description": "Gets or sets the date when the transaction occurred.",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "number",
+            "description": "Gets or sets the value of the transaction. This value should be normalized to the actual transaction value (i.e., the value from the CNAB file divided by 100).",
+            "format": "double"
+          },
+          "cpf": {
+            "type": "string",
+            "description": "Gets or sets the CPF of the beneficiary of the transaction.",
+            "nullable": true
+          },
+          "card": {
+            "type": "string",
+            "description": "Gets or sets the card number used in the transaction.",
+            "nullable": true
+          },
+          "time": {
+            "type": "string",
+            "description": "Gets or sets the time when the transaction occurred.",
+            "format": "date-time"
+          },
+          "storeOwner": {
+            "type": "string",
+            "description": "Gets or sets the name of the store owner.",
+            "nullable": true
+          },
+          "storeName": {
+            "type": "string",
+            "description": "Gets or sets the name of the store where the transaction occurred.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a financial transaction from a CNAB file."
+      },
+      "TransactionResponseCommandIEnumerableResultMessage": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Status do processamento"
+          },
+          "message": {
+            "type": "string",
+            "description": "Mensagem de retorno",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionResponseCommand"
+            },
+            "description": "Dados de retorno",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Resultado do processamento do handler"
+      },
+      "TransactionResponseCommandResultMessage": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Status do processamento"
+          },
+          "message": {
+            "type": "string",
+            "description": "Mensagem de retorno",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/TransactionResponseCommand"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Resultado do processamento do handler"
+      }
+    }
+  }
+}
