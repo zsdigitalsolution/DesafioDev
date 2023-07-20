@@ -21,7 +21,7 @@ public class TransactionController : ControllerBase
     /// <summary>
     /// Uploads a CNAB file for processing.
     /// </summary>
-    /// <param name="upload">The CNAB file to upload.</param>
+    /// <param name="file">The CNAB file to upload.</param>
     /// <returns>Ok if the file was processed successfully, BadRequest otherwise.</returns>
     [HttpPost]
     public async Task<IActionResult> UploadFile([FromForm] IFormFile file)
