@@ -4,9 +4,7 @@ using DesafioDevApi.Domain.Contract;
 using DesafioDevApi.Domain.Entities;
 using DesafioDevApi.Domain.Handlers;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Moq;
-using System.Linq.Expressions;
 
 namespace DesafioDevApi.Test
 {
