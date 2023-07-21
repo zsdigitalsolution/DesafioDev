@@ -16,7 +16,7 @@ namespace DesafioDevApi.Infrastructure.Data.Common
 
         public bool Commit()
         {
-            return _dbContext.SaveChanges()>0;
+            return _dbContext.SaveChanges() > 0;
         }
 
         public void Dispose()

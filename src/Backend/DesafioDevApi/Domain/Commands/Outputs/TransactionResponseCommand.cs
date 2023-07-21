@@ -33,7 +33,7 @@ namespace DesafioDevApi.Domain.Commands.Outputs
         /// Gets or sets the date when the transaction occurred.
         /// </summary>
         public DateTime Date { get; set; }
-        
+
 
         /// <summary>
         /// Gets or sets the value of the transaction. This value should be normalized to the actual transaction value (i.e., the value from the CNAB file divided by 100).

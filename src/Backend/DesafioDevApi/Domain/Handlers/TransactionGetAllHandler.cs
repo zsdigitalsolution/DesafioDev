@@ -2,11 +2,8 @@
 using DesafioDevApi.Domain.Commands.Outputs;
 using DesafioDevApi.Domain.Common;
 using DesafioDevApi.Domain.Contract;
-using DesafioDevApi.Domain.Queries;
 using Flunt.Notifications;
 using MediatR;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Security.Cryptography.X509Certificates;
 
 namespace DesafioDevApi.Domain.Handlers
 {

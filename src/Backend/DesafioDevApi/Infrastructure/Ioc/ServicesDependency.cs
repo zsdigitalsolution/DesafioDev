@@ -19,7 +19,7 @@ namespace DesafioDevApi.Infrastructure.Ioc
             services.AddDbContext<ApiDBContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-               
+
             });
             services.AddDbContext<ApiDBContext>(delegate (DbContextOptionsBuilder options) { });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
