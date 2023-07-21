@@ -5,6 +5,8 @@ using DesafioDevApi.Domain.Contract;
 using DesafioDevApi.Domain.Queries;
 using Flunt.Notifications;
 using MediatR;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DesafioDevApi.Domain.Handlers
 {
@@ -27,7 +29,7 @@ namespace DesafioDevApi.Domain.Handlers
                 return response;
             }
             var items = await _repository.GetAllAsync();
-            var result = items.Select(x => new TransactionResponseCommand().SetPropertyAutomap(x));
+            var result = items.Select(x => new TransactionResponseCommand(id: x.Id, type: x.Type, date: x.Date, value: x.Value, cPF: x.CPF, card: x.Card, time: x.Time, storeOwner: x.StoreOwner, storeName: x.StoreName));
             response.AddValue(result);
             return response;
         }

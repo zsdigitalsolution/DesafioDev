@@ -21,7 +21,7 @@ public class TransactionController : ControllerBase
     /// <summary>
     /// Uploads a CNAB file for processing.
     /// </summary>
-    /// <param name="file">The CNAB file to upload.</param>
+    /// <param name="upload">The CNAB file to upload.</param>
     /// <returns>Ok if the file was processed successfully, BadRequest otherwise.</returns>
     [HttpPost]
     public async Task<IActionResult> UploadFile([FromForm] IFormFile file)
@@ -36,7 +36,7 @@ public class TransactionController : ControllerBase
     /// <returns>A transactions.</returns>
     [HttpGet("{id}")]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(ResultMessage<TransactionResponseCommand>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(TransactionResponseCommand), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(IEnumerable<Notification>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(IEnumerable<Notification>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
@@ -51,7 +51,7 @@ public class TransactionController : ControllerBase
     /// <returns>A list of all transactions.</returns>
     [HttpGet]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(ResultMessage<IEnumerable<TransactionResponseCommand>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<TransactionResponseCommand>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(IEnumerable<Notification>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(IEnumerable<Notification>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]

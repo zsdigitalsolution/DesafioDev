@@ -1,7 +1,6 @@
 using DesafioDevApi.Infrastructure.Ioc;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using System.Globalization;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +21,7 @@ builder.Services.AddSwaggerGen(c =>
 //Adionado as dependencias 
 builder.Services.AddServicesDependency(builder.Configuration);
 var app = builder.Build();
-
+app.UseCors("CorsPolicy");
 // Configure the HTTP request pipeline.
 // Enable middleware to serve generated Swagger as a JSON endpoint.
 app.UseSwagger();

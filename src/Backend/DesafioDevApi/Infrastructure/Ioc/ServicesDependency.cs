@@ -37,6 +37,16 @@ namespace DesafioDevApi.Infrastructure.Ioc
                 .AddScoped<IRequestHandler<TransactionGetAllRequestCommand, Response>, TransactionGetAllHandler>()
                 .AddScoped<IRequestHandler<TransactionGetRequestCommand, Response>, TransactionGetHandler>();
             #endregion
+            #region Configures
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.WithOrigins("http://localhost:3000")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
+            #endregion
             return services;
         }
     }

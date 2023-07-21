@@ -25,7 +25,7 @@ namespace DesafioDevApi.Infrastructure.Services
                         Card = line.Substring(30, 12),
                         Time = DateTime.Today.Add(TimeSpan.ParseExact(line.Substring(42, 6), "hhmmss", CultureInfo.InvariantCulture)),
                         StoreOwner = line.Substring(48, 14).Trim(),
-                        StoreName = line.Substring(62, 19).Trim()
+                        StoreName = line.Substring(62).Trim()
                     };
 
                     transactions.Add(transaction);

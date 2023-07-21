@@ -28,7 +28,7 @@ namespace DesafioDevApi.Domain.Handlers
                 response.AddNotification(new Notification("404", Constants.ValidateHandlerMsgNotFoundData));
                 return response;
             }
-            var result = new TransactionResponseCommand().SetPropertyAutomap(items);
+            var result = new TransactionResponseCommand(id: items.Id, type: items.Type, date: items.Date, value: items.Value, cPF: items.CPF, card: items.Card, time: items.Time, storeOwner: items.StoreOwner, storeName: items.StoreName);
             response.AddValue(result);
             return response;
         }

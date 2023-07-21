@@ -13,7 +13,7 @@ namespace DesafioDevApi.Migrations
 {
     [DbContext(typeof(ApiDBContext))]
     [Migration("20230720124212_v1")]
-    partial class v1
+    partial class V1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
